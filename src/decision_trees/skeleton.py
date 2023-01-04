@@ -26,8 +26,8 @@ import sys
 
 from decision_trees import __version__
 
-__author__ = "Piotr SĹ‚onka"
-__copyright__ = "Piotr SĹ‚onka"
+__author__ = "Piotr Slonka"
+__copyright__ = "Piotr Slonka"
 __license__ = "MIT"
 
 _logger = logging.getLogger(__name__)
