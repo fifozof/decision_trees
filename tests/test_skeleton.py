@@ -2,8 +2,8 @@ import pytest
 
 from decision_trees.skeleton import fib, main
 
-__author__ = "Piotr SĹ‚onka"
-__copyright__ = "Piotr SĹ‚onka"
+__author__ = "Piotr Slonka"
+__copyright__ = "Piotr Slonka"
 __license__ = "MIT"
 
 
