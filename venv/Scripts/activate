@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\piotr\OneDrive\Decision_trees\decision_trees\venv"
+VIRTUAL_ENV="C:\Users\Marcin\PycharmProjects\decision_trees\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

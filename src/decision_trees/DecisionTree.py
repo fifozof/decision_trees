@@ -2,17 +2,35 @@ import numpy as np
 from Node import *
 
 
-class DecisionTreeClassifier():
-    def __init__(self, min_samples_split=2, max_depth=2):
-        # initialize the root of the tree
+class DecisionTreeClassifier:
+    def __init__(self, min_samples_left=2, max_tree_depth=2):
+        # initialize the root used to move through the tree
         self.root = None
-
         # stopping conditions
-        self.min_samples_split = min_samples_split
-        self.max_depth = max_depth
+        self.min_samples_left = min_samples_left
+        self.max_tree_depth = max_tree_depth
+
+    def create_tree(self, dataset, current_depth=0):
+        # slicing - take every row and every column except the last one
+        features = dataset[:, :-1]
+        # slicing - take every row and the last column
+        assignation = dataset[:, -1]
+
+        num_samples = len(features)
+        num_features = len(features[0])
+
+        if num_samples >= self.min_samples_left and current_depth <= self.max_tree_depth:
+            #bestsplit
+            current_depth=current_depth+1
+            leftbranch=create_tree(self,datasetsplit,current_depth)
+            rightbranch=create_tree(self,datasetsplit2,current_depth)
+        else
+            return
+
+
 
     def build_tree(self, dataset, curr_depth=0):
-        X, Y = dataset[:, :-1], dataset[:, -1]
+
         num_samples, num_features = np.shape(X)
 
         # split until stopping conditions are met
@@ -33,6 +51,23 @@ class DecisionTreeClassifier():
         leaf_value = self.calculate_leaf_value(Y)
         # return leaf node
         return Node(value=leaf_value)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def get_best_split(self, dataset, num_samples, num_features):
         ''' function to find the best split '''
@@ -84,25 +119,29 @@ class DecisionTreeClassifier():
             gain = self.entropy(parent) - (weight_l * self.entropy(l_child) + weight_r * self.entropy(r_child))
         return gain
 
-    def entropy(self, y):
-        ''' function to compute entropy '''
+    def calc_entropy(self,val):
+        assignation_types=np.unique(val)
+        entropy=0
+        for i in assignation_types:
+            assignation_num=0
+            for j in val:
+                if j==i:
+                    assignation_num=assignation_num+1
 
-        class_labels = np.unique(y)
-        entropy = 0
-        for cls in class_labels:
-            p_cls = len(y[y == cls]) / len(y)
-            entropy += -p_cls * np.log2(p_cls)
+            entropy=entropy-(assignation_num/len(val))*np.log2(assignation_num/len(val))
         return entropy
 
-    def gini_index(self, y):
-        ''' function to compute gini index '''
+    def calc_gini(self,val):
+        assignation_types = np.unique(val)
+        gini=1
+        for i in assignation_types:
+            assignation_num=0
+            for j in val:
+                if j==i:
+                    assignation_num = assignation_num + 1
 
-        class_labels = np.unique(y)
-        gini = 0
-        for cls in class_labels:
-            p_cls = len(y[y == cls]) / len(y)
-            gini += p_cls ** 2
-        return 1 - gini
+            gini=gini-(assignation_num/len(val))**2
+        return gini
 
     def calculate_leaf_value(self, Y):
         ''' function to compute leaf node '''
