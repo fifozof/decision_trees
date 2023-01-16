@@ -11,7 +11,7 @@ Y = np.reshape(Y, (150, -1))
 
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=.2, random_state=32)
 
-regressor = DecisionTreeClassifier(min_samples_split=3, max_depth=3)
+regressor = DecisionTreeClassifier(min_samples_left=3, max_tree_depth=3)
 regressor.fit(X_train, Y_train)
 regressor.print_tree()
 
