@@ -11,7 +11,6 @@ class DecisionTreeClassifier:
         self.min_samples_left = min_samples_left
         # stop splitting if the tree has as many split levels as ...
         self.max_tree_depth = max_tree_depth
-
     def create_tree(self, dataset, current_depth=0):
         # slicing - take every row and every column except the last one
         features = dataset[:, :-1]
@@ -122,6 +121,8 @@ class DecisionTreeClassifier:
             self.print_tree(tree.left, indent + indent)
             print("%sright:" % (indent), end="")
             self.print_tree(tree.right, indent + indent)
+
+
 
     def fit(self, X, Y):
         ''' function to train the tree '''
