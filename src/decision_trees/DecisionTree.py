@@ -22,21 +22,25 @@ class DecisionTreeClassifier:
         # number of columns -""-
         num_features = len(features[0])
 
+
+
+
         # if no stopping conditions are met
         if num_samples >= self.min_samples_left and current_depth <= self.max_tree_depth:
             current_depth=current_depth+1
             # split the tree into two datasets
             best_split = self.get_best_split(dataset, num_samples, num_features)
-            # recursively generate tree branches as next trees
-            leftbranch = self.create_tree(best_split[0], current_depth)
-            rightbranch = self.create_tree(best_split[1], current_depth)
-            # return a decision node with the index of the feature, the point used as the splitting value, left and right branches and the information gain
-            return Node(best_split[2], best_split[3], leftbranch, rightbranch, best_split[4])
-        else:
-            # compute leaf node
-            leaf_value = self.calc_leaf_value(assignation)
-            # return a leaf node
-            return Node(value=leaf_value)
+            if best_split[4] > 0:
+                # recursively generate tree branches as next trees
+                leftbranch = self.create_tree(best_split[0], current_depth)
+                rightbranch = self.create_tree(best_split[1], current_depth)
+                # return a decision node with the index of the feature, the point used as the splitting value, left and right branches and the information gain
+                return Node(best_split[2], best_split[3], leftbranch, rightbranch, best_split[4])
+
+        # compute leaf node
+        leaf_value = self.calc_leaf_value(assignation)
+        # return a leaf node
+        return Node(value=leaf_value)
 
 
     def get_best_split(self,dataset, num_samples, num_features):
@@ -107,7 +111,7 @@ class DecisionTreeClassifier:
         return max(val, key=val.count)
 
     def print_tree(self, tree=None, indent=" "):
-        ''' function to print the tree '''
+
 
         if not tree:
             tree = self.root
@@ -122,10 +126,7 @@ class DecisionTreeClassifier:
             print("%sright:" % (indent), end="")
             self.print_tree(tree.right, indent + indent)
 
-
-
     def fit(self, X, Y):
-        ''' function to train the tree '''
 
         dataset = np.concatenate((X, Y), axis=1)
         self.root = self.create_tree(dataset)
@@ -136,7 +137,7 @@ class DecisionTreeClassifier:
         return predictions
 
     def make_prediction(self, x, tree):
-        ''' function to predict a single data point '''
+
 
         if tree.value != None: return tree.value
         feature_val = x[tree.feature_index]
