@@ -1,7 +1,6 @@
 import numpy as np
 from Node import *
 
-
 class DecisionTreeClassifier:
     def __init__(self, min_samples_left=2, max_tree_depth=2):
         # initialize the root used to move through the tree
@@ -11,6 +10,7 @@ class DecisionTreeClassifier:
         self.min_samples_left = min_samples_left
         # stop splitting if the tree has as many split levels as ...
         self.max_tree_depth = max_tree_depth
+
     def create_tree(self, dataset, current_depth=0):
         # slicing - take every row and every column except the last one
         features = dataset[:, :-1]
@@ -21,9 +21,6 @@ class DecisionTreeClassifier:
         num_samples = len(features)
         # number of columns -""-
         num_features = len(features[0])
-
-
-
 
         # if no stopping conditions are met
         if num_samples >= self.min_samples_left and current_depth <= self.max_tree_depth:
@@ -69,9 +66,6 @@ class DecisionTreeClassifier:
 
             return bestsplits
 
-
-
-
     def calc_infogain(self,alldatapt, lsplit, rsplit):
         weightleft = len(lsplit)/len(alldatapt)
         weightright = len(rsplit)/len(alldatapt)
@@ -106,39 +100,30 @@ class DecisionTreeClassifier:
         return gini
 
     def calc_leaf_value(self, val):
-
         val = list(val)
         return max(val, key=val.count)
 
     def print_tree(self, tree=None, indent=" "):
-
-
         if not tree:
             tree = self.root
-
         if tree.value is not None:
-            print(tree.value)
-
+            print("%s" %(indent),tree.value )
         else:
-            print("X_" + str(tree.feature_index), "<=", tree.threshold, "?", tree.info_gain)
-            print("%sleft:" % (indent), end="")
+            print("%sFeature index:" % (indent), tree.feature_index, "\n%sThreshold:" % (indent), tree.threshold, "\n%sInformation gain:" % (indent),"%.4f" % tree.info_gain)
+            print("%sLeft:" % (indent))
             self.print_tree(tree.left, indent + indent)
-            print("%sright:" % (indent), end="")
+            print("%sRight:" % (indent))
             self.print_tree(tree.right, indent + indent)
 
     def fit(self, X, Y):
-
         dataset = np.concatenate((X, Y), axis=1)
         self.root = self.create_tree(dataset)
 
     def predict(self, X):
-
         predictions = [self.make_prediction(x, self.root) for x in X]
         return predictions
 
     def make_prediction(self, x, tree):
-
-
         if tree.value != None: return tree.value
         feature_val = x[tree.feature_index]
         if feature_val <= tree.threshold:

@@ -30,10 +30,11 @@ regressor = DecisionTreeClassifier(min_samples_left=3, max_tree_depth=3)
 regressor.fit(Xi_train, Yi_train)
 regressor.print_tree()
 
+print("\n\n")
 
 regressor2 = DecisionTreeClassifier(min_samples_left=3, max_tree_depth=3)
 regressor2.fit(Xw_train, Yw_train)
-#regressor2.print_tree()
+regressor2.print_tree()
 
 
 Yi_pred = regressor.predict(Xi_test)
