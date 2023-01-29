@@ -1,6 +1,7 @@
 import numpy as np
 from Node import *
 
+
 class DecisionTreeClassifier:
     def __init__(self, min_samples_left=2, max_tree_depth=2):
         # initialize the root used to move through the tree
